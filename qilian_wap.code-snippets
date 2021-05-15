@@ -1,0 +1,166 @@
+{	
+	"template helper lists":{
+		"scope":"html,javascript",
+		"prefix": "_thl",
+		"body":[
+			"template.helper('transferDate', function(val) {",
+				"\tvar date = new Date(val * 1000);",
+				"\treturn formatDate(date, 'yyyy-MM-dd hh:mm:ss');",
+			"})",
+			"template.helper('encode', encodeURIComponent);",
+			"template.helper('decode', decodeURIComponent);",
+			"template.helper('Number', Number);\n",
+		],
+		"description": "template helper lists"
+	},
+	"ncScrollLoad":{
+		"scope": "javascript",
+		"prefix": "_ncl",
+		"body":[
+			"var load_class = new ncScrollLoad();",
+			"load_class.loadInit({",
+				"\t'url': ApiUrl + '/index.php?act=${1:act}&op=${2:op}',",
+				"\t'getparam': {",
+					"\t\tkey: getCookie('key'),",
+					"\t\t",
+				"\t},",
+				"\t'tmplid': 'template1',",
+				"\t'containerobj': $(\"#slot1\"),",
+				"\t'iIntervalId': true",
+			"});\n",
+		]
+	},
+	"ajax requests post":{
+		"scope":"javascript",
+		"prefix": "_arp",
+		"body":[
+			"$.ajax({",
+				"\ttype: 'post',",
+				"\turl: ApiUrl + '/index.php?act=${1:act}&op=${2:op}',",
+				"\tdata: {",
+					"\t\tkey: getCookie('key'),",
+				"\t},",
+				"\tdataType: 'json',",
+				"\tsuccess: function(res) {",
+					"\t\tcheckLogin(res.login);",
+					"\t\t",
+				"\t}",
+			"})\n"
+		],
+		"description": "ajax post"
+	},
+	"ajax requests get":{
+		"scope":"javascript",
+		"prefix": "_arg",
+		"body":[
+			"$.ajax({",
+				"\ttype: 'get',",
+				"\turl: ApiUrl + '/index.php?act=${1:act}&op=${2:op}',",
+				"\tdata: {",
+					"\t\tkey: getCookie('key'),",
+				"\t},",
+				"\tdataType: 'json',",
+				"\tsuccess: function(res) {",
+					"\t\tcheckLogin(res.login);",
+					"\t\t",
+				"\t}",
+			"})\n"
+		],
+		"description": "ajax get"
+	},
+	"default template render":{
+		"scope": "javascript",
+		"prefix": "_dtr",
+		"body": [
+			"$('#${1:slot1}').html(template.render('${2:template1}', ${3:res.datas}));\n"
+		],
+		"description": "default template render"
+	},
+	"replace link":{
+		"scope": "javascript",
+		"prefix": "_rl",
+		"body":[
+			"var link = '${1:https://new.cnqilian.com/wap/gyl/my.html}';",
+			"history.replaceState({}, link, link);\n"
+		]
+	},
+	"reload when back":{
+		"scope": "javascript",
+		"prefix": "_rwb",
+		"body": [
+			"window.addEventListener('pageshow', function(event) {",
+				"\tpushStateBool = false;",
+				"\tsetTimeout(function() {",
+					"\t\tpushStateBool = true;",
+				"\t}, 1000)",
+				"\tif (event.persisted || window.performance && window.performance.navigation.type == 2) {",
+					"\t\twindow.location.reload()",
+				"\t}",
+			"})\n",
+		]
+	},
+	"default template":{
+		"prefix": "_dt",
+		"body": [
+		"<script type=\"text/html\" id=\"template1\">",
+			"\t<% if(list.length >0){%>",
+				"\t\t<% for (var k in list) { var v = list[k]; %>",
+					"\t\t\t<div class=\"list-item flex-column\">",
+						"\t\t\t\t<div class=\"flex-row\">",
+							"\t\t\t\t\t<span class=\"list-item-name\"><%=v.store_name%>的记录1</span>",
+							"\t\t\t\t\t<span class=\"list-item-money\">￥<%=v.txje%></span>",
+						"\t\t\t\t</div>",
+						"\t\t\t\t<div>",
+							"\t\t\t\t\t<span class=\"list-item-time\"><%=v.addtime%></span>",
+						"\t\t\t\t</div>",
+						"\t\t\t\t<div>",
+						"\t\t\t\t</div>",
+						"\t\t\t\t<%if(v.zt == 0){%>",
+							"\t\t\t\t\t<span class=\"list-item-tag sh\">待审核</span>",
+						"\t\t\t\t<%}else{%>",
+							"\t\t\t\t\t<span class=\"list-item-tag done\">已发放</span>",
+						"\t\t\t\t<%}%>",
+					"\t\t\t</div>",
+			"\t<%}%>",
+			"\t<div class=\"loading\" style=\"text-align: center;\">",
+				"\t\t<div class=\"spinner\"><i></i></div>",
+				"\t\t数据读取中",
+			"\t</div>",
+			"\t<%}else {%>",
+				"\t\t\t<div class=\"nodata flex-column align-center justify-center\">",
+					"\t\t\t\t<img src=\"../../images/nodata.png\" alt=\"\">",
+					"\t\t\t\t<span>暂无相关数据</span>",
+					"\t\t\t\t<span></span>",
+				"\t\t\t</div>",
+			"\t<%}%>",
+			"\t</div>",
+		"</script>\n",
+		]
+	},
+	"loading html ":{
+		"prefix": "_ld",
+		"body":[
+			"<div class=\"loading\" style=\"text-align: center;\">",
+                "\t<div class=\"spinner\"><i></i></div>",
+                "\t数据读取中",
+            "</div>"
+		]
+	},
+	"system log":{
+		"prefix": "_sl",
+		"body":[
+			"$.ajax({",
+				"\ttype: 'post',",
+				"\turl: ApiUrl + '/index.php?act=index&op=sysLog',",
+				"\tdata: {",
+					"\t\ttype: 'web',",
+					"\t\terror:'${1:error}'",
+				"\t},",
+				"\tdataType: 'json',",
+				"\tsuccess: function(res) {",
+				"\t\tconsole.log('log log!')",
+				"\t}",
+			"})"
+		]
+	}
+}
